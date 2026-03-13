@@ -13,7 +13,7 @@ module Fuik
       when Hash
         hashed(object, current_path:, depth:)
       when Array
-        arrayed(object, depth:)
+        arrayed(object, current_path:, depth:)
       when String
         %(<span class="json-string">"#{object}"</span>)
       when Numeric
@@ -33,9 +33,9 @@ module Fuik
         key_path = current_path + [key]
         path_string = key_path.map { "[\"#{it}\"]" }.join
 
-        comma = index == object.size - 1 ? "" : '<span class="json-punctuation">,</span>'
+        comma = (index == object.size - 1) ? "" : '<span class="json-punctuation">,</span>'
 
-        "#{next_indent}#{%(<span class="json-key" data-path='#{path_string}'>"#{key}"</span>)}<span class=\"json-punctuation\">:</span> #{build_highlighted(value, key_path, depth + 1)}#{comma}"
+        "#{next_indent}#{%(<span class="json-key" data-path='#{path_string}'>"#{key}"</span>)}<span class=\"json-punctuation\">:</span> #{annotate(value, key_path, depth + 1)}#{comma}"
       end.tap do |lines|
         lines.unshift('<span class="json-punctuation">{</span>')
 
@@ -43,11 +43,14 @@ module Fuik
       end.join("\n")
     end
 
-    def arrayed(object, depth:)
-      object.each_with_index.map do |value, index|
-        comma = index == object.size - 1 ? "" : '<span class="json-punctuation">,</span>'
+    def arrayed(object, current_path:, depth:)
+      indent = "  " * depth
+      next_indent = "  " * (depth + 1)
 
-        "#{next_indent}#{build_highlighted(value, current_path + [index], depth + 1)}#{comma}"
+      object.each_with_index.map do |value, index|
+        comma = (index == object.size - 1) ? "" : '<span class="json-punctuation">,</span>'
+
+        "#{next_indent}#{annotate(value, current_path + [index], depth + 1)}#{comma}"
       end.tap do |lines|
         lines.unshift('<span class="json-punctuation">[</span>')
 
