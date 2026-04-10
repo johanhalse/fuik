@@ -6,7 +6,6 @@ Fuik (Dutch for fish trap) is a Rails engine that catches and stores webhooks fr
 
 <img alt="Fuik admin interface" src="https://raw.githubusercontent.com/Rails-Designer/fuik/HEAD/.github/docs/webhooks-index.jpg" style="max-width: 100%;">
 
-
 **Sponsored By [Rails Designer](https://railsdesigner.com/)**
 
 <a href="https://railsdesigner.com/" target="_blank">
@@ -59,6 +58,13 @@ Visit `/webhooks` to see all received webhooks. Click any event to view all the 
 <img alt="Fuik event detail interface" src="https://raw.githubusercontent.com/Rails-Designer/fuik/HEAD/.github/docs/event-detail.jpg" style="max-width: 100%;">
 
 ⚠️ The `/webhooks` path is by default not protected. Easiest is to set `Fuik::Engine.config.events_controller_parent` to a controller that requires authentication.
+
+### Dashboard features
+
+* **Copy payload as JSON**: click a button, payload is in your clipboard
+* **Download payload as JSON file**: keep it for testing, debugging or throw it at your LLM agent, bot or colleague.
+* **Add `.json` to any URL**: get the raw payload without the UI
+* **Click any key to get the Ruby accessor path**: click `product_id` (as seen in the screenshot above) and get `payload["line_items"][0]["product_id"]` (say what? 🤯)
 
 
 ### Add business logic
