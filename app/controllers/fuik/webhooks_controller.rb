@@ -31,7 +31,7 @@ module Fuik
     private
 
     def body_json
-      return request.raw_post unless request.content_type == "application/x-www-form-urlencoded"
+      return request.raw_post unless request.media_type == "application/x-www-form-urlencoded"
 
       Rack::Utils.parse_nested_query(request.raw_post).to_json
     end
